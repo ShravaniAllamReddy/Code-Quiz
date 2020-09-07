@@ -17,7 +17,7 @@
     <!-- Start Nav -->
     <header>
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">View Highscores</a>
+            <a class="navbar-brand" href="#" id="highscorespage">View Highscores</a>
 
             <h5 class="justify-content-end time">
                 Time : 0
@@ -103,24 +103,22 @@
     <!-- HighScores Section -->
     <div class="container" id="highscores" style="display:none">
         <div class="row">
-            <h2>High Scores</h2>
-        </div>
+            <div class="col-sm-10">
 
-        <p>User Initials:<span id="user-initials"></span></p>
-        <p>Final Score: <span id="user-score"></span></p>
+                <h2>High Scores</h2>
+
+                <p>User Initials:<span id="user-initials"></span></p>
+                <p>Final Score: <span id="user-score"></span></p>
 
 
-        <div class="row">
-            <div class="col-sm-6">
-                <button type="button" id="button1" class="btn btn-primary">Go Back</button>
+                <button type="button" id="restartbtn" class="btn btn-primary">Go Back</button>
+                <button type="button" id="clear" class="btn btn-primary">Clear HighScores</button>
+
+
             </div>
-
-            <div class="col-sm-6">
-                <button type="button" id="button2" class="btn btn-primary">Clear HighScores</button>
-            </div>
-
         </div>
     </div>
+
 
 
 
