@@ -16,12 +16,12 @@ const finalscore = document.querySelector("#finalscore");
 const initials = document.querySelector("#initials");
 const scorepage = document.querySelector("#scorepage");
 const highscores = document.querySelector("#highscores");
+const scorelist = document.querySelector("scorelist");
 const userinitials = document.querySelector("#user-initials");
-const userscore = document.querySelector("#user-score");
+// const userscore = document.querySelector("#user-score");
 const restartbtn = document.querySelector("#restartbtn");
 const clear = document.querySelector("#clear");
-const highscorespage =  document.querySelector("#highscorespage");
-
+const highscorespage = document.querySelector("#highscorespage");
 
 
 const questionAnswers = [
@@ -82,6 +82,7 @@ let secondsLeft = 60;
 let score = 0;
 let index = 0;
 let currentQuestion = questionAnswers[0];
+nextQuestion();
 
 function startTimer() {
     // Create the countdown timer.
@@ -90,20 +91,12 @@ function startTimer() {
         timeEl.textContent = secondsLeft;
         localStorage.setItem("userscore", secondsLeft);
         finalscore.textContent = "Your Final Score :" + secondsLeft;
-        // console.log(finalscore);
         if (secondsLeft === 0 || index === questionAnswers.length - 1) {
             clearInterval(timerInterval);//cancel the timer 
-            setTimeout(viewScores(), 500);
+
         }
 
     }, 1000);
-}
-
-
-function startQuiz(event) {
-    event.preventDefault();
-    quizEl.style.display = "block";
-    mainEl.style.display = "none";
 }
 
 
@@ -119,7 +112,7 @@ function nextQuestion() {
     else {
         //local storage -optional
         //view highscores
-        secondsLeft = 0;
+        // secondsLeft = 0;
         quizEl.style.display = "none";
         scores.style.display = "block";
 
@@ -127,10 +120,10 @@ function nextQuestion() {
 }
 
 
-function viewScores(event) {
+function questionGuess(event) {
     event.preventDefault();
-    console.log(event.target);
-    console.log(event.target.textContent);
+    // console.log(event.target);
+    // console.log(event.target.textContent);
 
     if (event.target.textContent === currentQuestion.correctAnswer) {
         correct.style.display = "block";
@@ -153,39 +146,46 @@ function viewScores(event) {
 function saveInitials() {
     let initials = localStorage.getItem("storeInitials");
     let score = localStorage.getItem("userscore");
-    userinitials.textContent = initials;
-    userscore.textContent = score;
+    userinitials.textContent = "Initials: " + initials + " Score: " + score;
 }
 
 scorepage.addEventListener("click", function () {
     event.preventDefault();
     let storeInitials = initials.value;
 
-    console.log(storeInitials);
+    // console.log(storeInitials);
 
     localStorage.setItem("storeInitials", storeInitials);
 
     highscores.style.display = "block";
     scores.style.display = "none";
     saveInitials();
-
-
 });
 
-nextQuestion();
-buttonEl.addEventListener("click", viewScores);
-startEl.addEventListener("click", startQuiz);
-startEl.addEventListener("click", startTimer);
-restartbtn.addEventListener("click",function(event){
-    window.location.href = "http://localhost:52332/index.html";
-    
+
+buttonEl.addEventListener("click", questionGuess);
+
+startEl.addEventListener("click", function () {
+    quizEl.style.display = "block";
+    mainEl.style.display = "none";
 });
 
-// clear.addEventListener("click",function(){
-
-// })
-
-highscorespage.addEventListener("click",function(){
+highscorespage.addEventListener("click", function () {
     highscores.style.display = "block";
     mainEl.style.display = "none";
 });
+
+
+startEl.addEventListener("click", startTimer);
+restartbtn.addEventListener("click", function (event) {
+    window.location.href = "/index.html";
+
+});
+
+clear.addEventListener("click", function () {
+    localStorage.clear();
+    userinitials.style.display = "none";
+
+
+});
+
