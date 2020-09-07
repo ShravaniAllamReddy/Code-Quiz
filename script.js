@@ -18,6 +18,11 @@ const scorepage = document.querySelector("#scorepage");
 const highscores = document.querySelector("#highscores");
 const userinitials = document.querySelector("#user-initials");
 const userscore = document.querySelector("#user-score");
+const restartbtn = document.querySelector("#restartbtn");
+const clear = document.querySelector("#clear");
+const highscorespage =  document.querySelector("#highscorespage");
+
+
 
 const questionAnswers = [
     {
@@ -150,8 +155,6 @@ function saveInitials() {
     let score = localStorage.getItem("userscore");
     userinitials.textContent = initials;
     userscore.textContent = score;
-
-
 }
 
 scorepage.addEventListener("click", function () {
@@ -173,3 +176,16 @@ nextQuestion();
 buttonEl.addEventListener("click", viewScores);
 startEl.addEventListener("click", startQuiz);
 startEl.addEventListener("click", startTimer);
+restartbtn.addEventListener("click",function(event){
+    window.location.href = "http://localhost:52332/index.html";
+    
+});
+
+// clear.addEventListener("click",function(){
+
+// })
+
+highscorespage.addEventListener("click",function(){
+    highscores.style.display = "block";
+    mainEl.style.display = "none";
+});
