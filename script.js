@@ -14,16 +14,15 @@ const wrong = document.querySelector("#wrong");
 const scores = document.querySelector("#scores");
 const finalscore = document.querySelector("#finalscore");
 const initials = document.querySelector("#initials");
-const scorepage = document.querySelector("#scorepage");
+const submitbtn = document.querySelector("#submitbtn");
 const highscores = document.querySelector("#highscores");
 const scorelist = document.querySelector("scorelist");
 const userinitials = document.querySelector("#user-initials");
-// const userscore = document.querySelector("#user-score");
 const restartbtn = document.querySelector("#restartbtn");
 const clear = document.querySelector("#clear");
 const highscorespage = document.querySelector("#highscorespage");
 
-
+// Array of questions,answers and correct answers
 const questionAnswers = [
     {
         question: "Inside which HTML element do we put the JavaScript?",
@@ -84,8 +83,9 @@ let index = 0;
 let currentQuestion = questionAnswers[0];
 nextQuestion();
 
+//function that creates the countdown timer 
 function startTimer() {
-    // Create the countdown timer.
+
     let timerInterval = setInterval(function () {
         secondsLeft--;
         timeEl.textContent = secondsLeft;
@@ -99,7 +99,7 @@ function startTimer() {
     }, 1000);
 }
 
-
+//This function helps in displaying all the questions and answers
 function nextQuestion() {
     if (index < questionAnswers.length) {
         currentQuestion = questionAnswers[index];
@@ -110,20 +110,15 @@ function nextQuestion() {
         button4.textContent = currentQuestion.answers[3];
     }
     else {
-        //local storage -optional
-        //view highscores
-        // secondsLeft = 0;
+        //displays scores page
         quizEl.style.display = "none";
         scores.style.display = "block";
-
     }
 }
 
-
+//Function that checks if answer is correct or wrong and prints the necessary output
 function questionGuess(event) {
     event.preventDefault();
-    // console.log(event.target);
-    // console.log(event.target.textContent);
 
     if (event.target.textContent === currentQuestion.correctAnswer) {
         correct.style.display = "block";
@@ -133,7 +128,6 @@ function questionGuess(event) {
         secondsLeft = secondsLeft - 10;
         timeEl.textContent = secondsLeft;
     }
-
     setTimeout(function () {
         index++;
         nextQuestion();
@@ -143,32 +137,32 @@ function questionGuess(event) {
 
 }
 
-function saveInitials() {
+//Displays stored initials and scores on the page
+function displayScores() {
     let initials = localStorage.getItem("storeInitials");
     let score = localStorage.getItem("userscore");
     userinitials.textContent = "Initials: " + initials + " Score: " + score;
 }
 
-scorepage.addEventListener("click", function () {
+//Once we click submit button on scores page,highscores page is displayed with the stored values of initials and score
+submitbtn.addEventListener("click", function () {
     event.preventDefault();
     let storeInitials = initials.value;
-
-    // console.log(storeInitials);
-
     localStorage.setItem("storeInitials", storeInitials);
-
     highscores.style.display = "block";
     scores.style.display = "none";
-    saveInitials();
+    displayScores();
 });
 
 
 buttonEl.addEventListener("click", questionGuess);
 
+
 startEl.addEventListener("click", function () {
     quizEl.style.display = "block";
     mainEl.style.display = "none";
 });
+
 
 highscorespage.addEventListener("click", function () {
     highscores.style.display = "block";
@@ -177,15 +171,16 @@ highscorespage.addEventListener("click", function () {
 
 
 startEl.addEventListener("click", startTimer);
+
+//linking to index.html page to restart the quiz
 restartbtn.addEventListener("click", function (event) {
     window.location.href = "/index.html";
 
 });
 
+//clears the user initials and score from the local storage
 clear.addEventListener("click", function () {
     localStorage.clear();
     userinitials.style.display = "none";
-
-
 });
 
