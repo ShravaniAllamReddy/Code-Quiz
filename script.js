@@ -16,8 +16,7 @@ const finalscore = document.querySelector("#finalscore");
 const initials = document.querySelector("#initials");
 const submitbtn = document.querySelector("#submitbtn");
 const highscores = document.querySelector("#highscores");
-const scorelist = document.querySelector("scorelist");
-const userinitials = document.querySelector("#user-initials");
+const scorelist = document.querySelector("#scorelist");
 const restartbtn = document.querySelector("#restartbtn");
 const clear = document.querySelector("#clear");
 const highscorespage = document.querySelector("#highscorespage");
@@ -25,7 +24,7 @@ const highscorespage = document.querySelector("#highscorespage");
 // Array of questions,answers and correct answers
 const questionAnswers = [
     {
-        question: "Inside which HTML element do we put the JavaScript?",
+        question: "1.Inside which HTML element do we put the JavaScript?",
         answers: [
             "<script>",
             "<scripting>",
@@ -35,7 +34,7 @@ const questionAnswers = [
         correctAnswer: "<script>"
     },
     {
-        question: "Which of the following function of Array object returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found?",
+        question: "2.Which of the following function of Array object returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found?",
         answers: [
             "indexOf()",
             "join()",
@@ -45,7 +44,7 @@ const questionAnswers = [
         correctAnswer: "lastIndexOf()"
     },
     {
-        question: "Which of the following function of String object returns the primitive value of the specified object.",
+        question: "3.Which of the following function of String object returns the primitive value of the specified object.",
         answers: [
             "toLocaleUpperCase()",
             "toUpperCase()",
@@ -55,7 +54,7 @@ const questionAnswers = [
         correctAnswer: "valueOf()"
     },
     {
-        question: "How can you get the type of arguments passed to a function?",
+        question: "4.How can you get the type of arguments passed to a function?",
         answers: [
             "using typeof operator",
             "using getType function",
@@ -65,7 +64,7 @@ const questionAnswers = [
         correctAnswer: "using typeof operator"
     },
     {
-        question: "Which of the following function of String object extracts a section of a string and returns a new string?",
+        question: "5.Which of the following function of String object extracts a section of a string and returns a new string?",
         answers: [
             "slice()",
             "split()",
@@ -85,21 +84,19 @@ nextQuestion();
 
 //function that creates the countdown timer 
 function startTimer() {
-
     let timerInterval = setInterval(function () {
         secondsLeft--;
         timeEl.textContent = secondsLeft;
-        localStorage.setItem("userscore", secondsLeft);
         finalscore.textContent = "Your Final Score :" + secondsLeft;
         if (secondsLeft === 0 || index === questionAnswers.length - 1) {
-            clearInterval(timerInterval);//cancel the timer 
-
+            //cancels the timer 
+            clearInterval(timerInterval);
         }
 
     }, 1000);
 }
 
-//This function helps in displaying all the questions and answers
+//This function helps in displaying all the questions and answers 
 function nextQuestion() {
     if (index < questionAnswers.length) {
         currentQuestion = questionAnswers[index];
@@ -123,11 +120,13 @@ function questionGuess(event) {
     if (event.target.textContent === currentQuestion.correctAnswer) {
         correct.style.display = "block";
     }
+    //when user answers question incorrectly,10seconds is subtracted from the clock
     else {
         wrong.style.display = "block";
         secondsLeft = secondsLeft - 10;
         timeEl.textContent = secondsLeft;
     }
+    //Helps to navigate to next question 
     setTimeout(function () {
         index++;
         nextQuestion();
@@ -137,34 +136,58 @@ function questionGuess(event) {
 
 }
 
-//Displays stored initials and scores on the page
+let currentuser = initials.value;
+const currentHighscore = [{
+    name: currentuser,
+    score: secondsLeft
+}];
+
+//Displays stored scores which includes current user and their score 
 function displayScores() {
-    let initials = localStorage.getItem("storeInitials");
-    let score = localStorage.getItem("userscore");
-    userinitials.textContent = "Initials: " + initials + " Score: " + score;
+    let scores = JSON.parse(localStorage.getItem("savedHighscore")) || [];
+    for (let i = 0; i < scores.length; i++) {
+        let li = document.createElement("li");
+        li.textContent = scores[i].name + "-" + scores[i].score;
+        scorelist.appendChild(li);
+    }
 }
 
-//Once we click submit button on scores page,highscores page is displayed with the stored values of initials and score
+//Once we click on submit button,this function stores currentuser and their score in localstorage
 submitbtn.addEventListener("click", function () {
     event.preventDefault();
-    let storeInitials = initials.value;
-    localStorage.setItem("storeInitials", storeInitials);
-    highscores.style.display = "block";
-    scores.style.display = "none";
-    displayScores();
+    if (initials.value === "") {
+        alert("Please Enter your name");
+    }
+    else {
+        let currentuser = initials.value;
+        //JSON.parse converts JSON string to object
+        let savedHighscore = JSON.parse(localStorage.getItem("savedHighscore")) || [];
+        // console.log(savedHighscore);
+        highscores.style.display = "block";
+        scores.style.display = "none";
+        savedHighscore.push({
+            name: currentuser,
+            score: secondsLeft
+        });
+        //JSON.stringify converts object to string
+        localStorage.setItem("savedHighscore", JSON.stringify(savedHighscore));
+        // console.log(JSON.stringify(savedHighscore));
+        displayScores();
+    }
+
 });
 
 
 buttonEl.addEventListener("click", questionGuess);
-
 
 startEl.addEventListener("click", function () {
     quizEl.style.display = "block";
     mainEl.style.display = "none";
 });
 
-
+//to display all the scores of the users
 highscorespage.addEventListener("click", function () {
+    displayScores();
     highscores.style.display = "block";
     mainEl.style.display = "none";
 });
@@ -181,6 +204,7 @@ restartbtn.addEventListener("click", function (event) {
 //clears the user initials and score from the local storage
 clear.addEventListener("click", function () {
     localStorage.clear();
-    userinitials.style.display = "none";
+    scorelist.style.display = "none";
+
 });
 
