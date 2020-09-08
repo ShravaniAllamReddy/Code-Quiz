@@ -197,7 +197,7 @@ startEl.addEventListener("click", startTimer);
 
 //linking to index.html page to restart the quiz
 restartbtn.addEventListener("click", function (event) {
-    window.location.href = "/index.html";
+    window.location.href = "main.html";
 
 });
 
