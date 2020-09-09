@@ -79,6 +79,7 @@ const questionAnswers = [
 let secondsLeft = 60;
 let score = 0;
 let index = 0;
+let timerInterval;
 let currentQuestion = questionAnswers[0];
 let currentuser = initials.value;
 const currentHighscore = [{
@@ -89,16 +90,23 @@ const currentHighscore = [{
 
 //function that creates the countdown timer 
 function startTimer() {
-    let timerInterval = setInterval(function () {
+    timerInterval = setInterval(function () {
         secondsLeft--;
         timeEl.textContent = secondsLeft;
-        finalscore.textContent = "Your Final Score :" + secondsLeft;
-        if (secondsLeft === 0 || index === questionAnswers.length - 1) {
-            //cancels the timer 
-            clearInterval(timerInterval);
+        if (secondsLeft === 0) {
+            viewScores();
         }
 
     }, 1000);
+}
+
+//displays scores page
+function viewScores() {
+    //cancels the timer 
+    clearInterval(timerInterval);
+    quizEl.style.display = "none";
+    scores.style.display = "block";
+    finalscore.textContent = "Your Final Score :" + secondsLeft;
 }
 
 //This function helps in displaying all the questions and answers 
@@ -112,9 +120,7 @@ function nextQuestion() {
         button4.textContent = currentQuestion.answers[3];
     }
     else {
-        //displays scores page
-        quizEl.style.display = "none";
-        scores.style.display = "block";
+        viewScores();
     }
 }
 
@@ -137,14 +143,13 @@ function questionGuess(event) {
         nextQuestion();
         correct.style.display = "none";
         wrong.style.display = "none";
-    }, 1000)
+    }, 500)
 
 }
 
 
-
 //Displays stored scores which includes current user and their score 
-function displayScores() {
+function displayHighscores() {
     let scores = JSON.parse(localStorage.getItem("savedHighscore")) || [];
     for (let i = 0; i < scores.length; i++) {
         let li = document.createElement("li");
@@ -173,7 +178,7 @@ submitbtn.addEventListener("click", function () {
         //JSON.stringify converts object to string
         localStorage.setItem("savedHighscore", JSON.stringify(savedHighscore));
         // console.log(JSON.stringify(savedHighscore));
-        displayScores();
+        displayHighscores();
     }
 
 });
@@ -192,7 +197,8 @@ startBtn.addEventListener("click", startTimer);
 
 //to display all the scores of the users
 highscorespage.addEventListener("click", function () {
-    displayScores();
+    displayHighscores();
+    quizEl.style.display = "none";
     highscores.style.display = "block";
     mainEl.style.display = "none";
 });
