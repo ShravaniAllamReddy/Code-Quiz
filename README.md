@@ -4,7 +4,7 @@
 
 ## Description
 
-Code Quiz with multiple-choice questions which is timer based and if you answer incorrectly, 10seconds of time is subtracted from the clock and score is the time left in seceonds when you finished the quiz.
+Code Quiz with multiple-choice questions which is timer based and if you answer incorrectly, 10 seconds is subtracted from the clock and score is the time left in seconds when you finished the quiz.
 
 ## Usage
 
