@@ -93,7 +93,7 @@ function startTimer() {
     timerInterval = setInterval(function () {
         secondsLeft--;
         timeEl.textContent = secondsLeft;
-        if (secondsLeft === 0) {
+        if (secondsLeft <= 0) {
             viewScores();
         }
 
