@@ -7,7 +7,7 @@ const button3 = document.querySelector("#button3");
 const button4 = document.querySelector("#button4");
 const quizEl = document.querySelector("#quiz");
 const mainEl = document.querySelector("#main");
-const startEl = document.querySelector("#start");
+const startBtn = document.querySelector("#start");
 const buttonEl = document.querySelector("#button-container");
 const correct = document.querySelector("#correct");
 const wrong = document.querySelector("#wrong");
@@ -80,7 +80,12 @@ let secondsLeft = 60;
 let score = 0;
 let index = 0;
 let currentQuestion = questionAnswers[0];
-nextQuestion();
+let currentuser = initials.value;
+const currentHighscore = [{
+    name: currentuser,
+    score: secondsLeft
+}];
+
 
 //function that creates the countdown timer 
 function startTimer() {
@@ -136,11 +141,7 @@ function questionGuess(event) {
 
 }
 
-let currentuser = initials.value;
-const currentHighscore = [{
-    name: currentuser,
-    score: secondsLeft
-}];
+
 
 //Displays stored scores which includes current user and their score 
 function displayScores() {
@@ -177,13 +178,17 @@ submitbtn.addEventListener("click", function () {
 
 });
 
+nextQuestion();
 
 buttonEl.addEventListener("click", questionGuess);
 
-startEl.addEventListener("click", function () {
+startBtn.addEventListener("click", function () {
     quizEl.style.display = "block";
     mainEl.style.display = "none";
 });
+
+startBtn.addEventListener("click", startTimer);
+
 
 //to display all the scores of the users
 highscorespage.addEventListener("click", function () {
@@ -193,7 +198,6 @@ highscorespage.addEventListener("click", function () {
 });
 
 
-startEl.addEventListener("click", startTimer);
 
 //linking to index.html page to restart the quiz
 restartbtn.addEventListener("click", function (event) {
