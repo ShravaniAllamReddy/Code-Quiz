@@ -1,8 +1,10 @@
 # Web-API Timed Code-Quiz 
 
+<img src="assets/images/codequiz.JPG" alt="codequiz">
+
 ## Description
 
-Code Quiz with multiple-choice questions which is timer based and 10seconds of time is subtracted from the clock if you answer incorrectly and score is the time left in seceonds when you finished the quiz.
+Code Quiz with multiple-choice questions which is timer based and if you answer incorrectly, 10seconds of time is subtracted from the clock and score is the time left in seceonds when you finished the quiz.
 
 ## Usage
 
