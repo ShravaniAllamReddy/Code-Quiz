@@ -40,8 +40,9 @@ Code Quiz with multiple-choice questions which is timer based and if you answer 
     window.location.href = "index.html";
 
 
- 
+ ## Deployed URL of the application
 
+ https://shravaniallamreddy.github.io/Code-Quiz/
 
 
 
